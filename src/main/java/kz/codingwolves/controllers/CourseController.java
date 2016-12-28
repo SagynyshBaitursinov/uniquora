@@ -20,7 +20,6 @@ public class CourseController {
 
     @RequestMapping(value = "/courses", method = RequestMethod.GET)
     public List<Course> getCourses() {
-        throw new NullPointerException();
-        //return courseRepository.findAll();
+        return courseRepository.findAll();
     }
 }
