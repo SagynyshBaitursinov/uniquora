@@ -3,6 +3,8 @@ package kz.codingwolves.configurations;
 import kz.codingwolves.enums.Messages;
 import kz.codingwolves.models.User;
 import kz.codingwolves.repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +21,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @Configuration
 public class SecurityBeansDefinitions {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     UserRepository userRepository;
 
@@ -27,14 +31,14 @@ public class SecurityBeansDefinitions {
         return (Authentication authentication) -> {
             //Checking if allright, otherwise throw exception
             User user = userRepository.findByEmail(authentication.getPrincipal().toString());
-            if (user == null || !user.getRegistered()) {
+            if (user == null || !user.isRegistered()) {
                 throw new AuthenticationServiceException(Messages.forbidden.toString());
             }
-            System.out.println(user.getFullname());
             if (!user.getPassword().equals(authentication.getCredentials().toString())) {
+                logger.info("Bad credentials, email: " + user.getEmail());
                 throw new AuthenticationServiceException(Messages.forbidden.toString());
             }
-            return new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials());
+            return new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), null);
         };
     }
 

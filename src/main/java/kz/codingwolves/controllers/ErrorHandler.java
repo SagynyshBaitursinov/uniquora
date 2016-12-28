@@ -7,6 +7,11 @@ import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Enumeration;
+
 /**
  * Created by sagynysh on 12/20/16.
  */
@@ -18,8 +23,9 @@ public class ErrorHandler implements ErrorController {
 
     @ExceptionHandler(Throwable.class)
     @ResponseBody
-    public String conflict(Throwable e) {
+    public String conflict(Throwable e, HttpServletResponse response) {
         logger.info("An error occured with message {" + e.getMessage() + ", " + e.getStackTrace()[0].toString() + "}");
+        response.setStatus(500);
         return Messages.internalerror.toString();
     }
 
@@ -35,7 +41,13 @@ public class ErrorHandler implements ErrorController {
     }
 
     @RequestMapping(value = "/error")
-    public String error() {
+    public String error(HttpServletRequest request, HttpServletResponse response) {
+        Integer code = (java.lang.Integer) request.getAttribute("javax.servlet.error.status_code");
+        if (code != null && code == 404) {
+            response.setStatus(404);
+            return Messages.notfound.toString();
+        }
+        response.setStatus(500);
         return Messages.internalerror.toString();
     }
 }

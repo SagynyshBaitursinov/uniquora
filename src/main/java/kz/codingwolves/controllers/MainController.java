@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,13 +26,16 @@ public class MainController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    public CourseRepository courseRepository;
-
-    @Autowired
     private UserRepository userRepository;
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public byte[] index(HttpServletResponse response) throws IOException {
+        InputStream in = getClass().getClassLoader().getResourceAsStream("readme.txt");
+        return IOUtils.toByteArray(in);
+    }
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String resgister(@RequestBody RegistrationDto registration) {
+    public String register(@RequestBody RegistrationDto registration) {
         if (registration.email == null) {
             return Messages.fill.toString();
         } else {
@@ -49,9 +53,8 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public byte[] index(HttpServletResponse response) throws IOException {
-        InputStream in = getClass().getClassLoader().getResourceAsStream("readme.txt");
-        return IOUtils.toByteArray(in);
+    @RequestMapping(value = "/cookie", method =  RequestMethod.GET)
+    public String cookie(HttpServletRequest request) {
+        return request.getHeader("cookie");
     }
 }

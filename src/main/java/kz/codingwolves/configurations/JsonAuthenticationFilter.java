@@ -35,7 +35,7 @@ public class JsonAuthenticationFilter extends AbstractAuthenticationProcessingFi
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         //Extracting principal and Credentials from request
         StringBuffer jb = new StringBuffer();
-        String line = null;
+        String line;
         try {
             BufferedReader reader = request.getReader();
             while ((line = reader.readLine()) != null) {

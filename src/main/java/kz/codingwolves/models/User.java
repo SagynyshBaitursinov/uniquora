@@ -62,7 +62,7 @@ public class User extends PersistentUnit {
         this.email = email;
     }
 
-    public Boolean getRegistered() {
+    public Boolean isRegistered() {
         return registered;
     }
 
