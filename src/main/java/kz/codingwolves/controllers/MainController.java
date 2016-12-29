@@ -41,6 +41,9 @@ public class MainController {
             if (user == null) {
                 return Messages.notfound.toString();
             }
+            if (user.isRegistered()) {
+                return Messages.forbidden.toString();
+            }
             user.setRegistered(true);
             String uuid = UUID.randomUUID().toString();
             //user.setPassword(uuid.substring(0, 7));
