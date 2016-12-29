@@ -23,6 +23,14 @@ public class PersistentUnit {
     @Column(name="modifiedDate_")
     private Date modifiedDate;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Boolean getRemoved() {
         return removed;
     }

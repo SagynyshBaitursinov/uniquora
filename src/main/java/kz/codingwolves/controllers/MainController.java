@@ -3,7 +3,6 @@ package kz.codingwolves.controllers;
 import kz.codingwolves.dto.RegistrationDto;
 import kz.codingwolves.enums.Messages;
 import kz.codingwolves.models.User;
-import kz.codingwolves.repositories.CourseRepository;
 import kz.codingwolves.repositories.UserRepository;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -11,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,16 +43,12 @@ public class MainController {
             }
             user.setRegistered(true);
             String uuid = UUID.randomUUID().toString();
-            user.setPassword(uuid.substring(0, 7));
+            //user.setPassword(uuid.substring(0, 7));
+            user.setPassword("123456789");
             userRepository.merge(user);
             logger.info("User registered " + user.getEmail());
-            //TODO: Send email with password as in Unichat?
+            //TODO: Send email with password as in Unichat? For not default 123456789 password is set for all
             return "success";
         }
-    }
-
-    @RequestMapping(value = "/cookie", method =  RequestMethod.GET)
-    public String cookie(HttpServletRequest request) {
-        return request.getHeader("cookie");
     }
 }

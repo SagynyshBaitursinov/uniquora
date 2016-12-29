@@ -35,6 +35,9 @@ public class ErrorHandler implements ErrorController {
     @ResponseBody
     public String conflict(Throwable e, HttpServletResponse response) {
         logger.info("An error occured with message {" + e.getMessage() + ", " + e.getStackTrace()[0].toString() + "}");
+        if (logger.isDebugEnabled()) {
+            e.printStackTrace();
+        }
         response.setStatus(500);
         return Messages.internalerror.toString();
     }
