@@ -1,5 +1,6 @@
 package kz.codingwolves.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -10,10 +11,13 @@ import javax.persistence.Table;
 @Table(name="courses")
 public class Course extends PersistentUnit {
 
+    @Column(name="registrar_id_")
     private Long registrarId;
 
+    @Column(name="course_code_")
     private String code;
 
+    @Column(name="title_")
     private String title;
 
     public Long getRegistrarId() {
