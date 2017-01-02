@@ -29,6 +29,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.POST,"/register").anonymous()
+                .antMatchers(HttpMethod.GET,"/confirm").anonymous()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint((HttpServletRequest request,
                                                                      HttpServletResponse response, AuthenticationException authException) -> {

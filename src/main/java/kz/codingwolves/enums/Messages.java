@@ -10,5 +10,7 @@ public enum Messages {
     notfound,
     internalerror,
     forbidden,
-    login
+    login,
+    incorrectformat,
+    frequencylimit
 }

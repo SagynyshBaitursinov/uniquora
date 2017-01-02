@@ -1,5 +1,7 @@
 package kz.codingwolves.models;
 
+import kz.codingwolves.enums.Messages;
+
 import javax.persistence.*;
 
 /**
@@ -82,7 +84,10 @@ public class User extends PersistentUnit {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password) throws Exception {
+        if (password == null || password.length() < 9) {
+            throw new Exception(Messages.incorrectformat.toString());
+        }
         this.password = password;
     }
 

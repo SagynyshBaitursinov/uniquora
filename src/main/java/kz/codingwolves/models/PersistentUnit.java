@@ -17,10 +17,10 @@ public class PersistentUnit {
     @Column(name="removed_")
     private Boolean removed;
 
-    @Column(name="createdDate_")
+    @Column(name="created_date_")
     private Date createdDate;
 
-    @Column(name="modifiedDate_")
+    @Column(name="modified_date_")
     private Date modifiedDate;
 
     public Long getId() {
