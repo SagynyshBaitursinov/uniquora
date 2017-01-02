@@ -1,6 +1,6 @@
-package kz.codingwolves.repositories;
+package kz.codingwolves.uniquora.repositories;
 
-import kz.codingwolves.models.Course;
+import kz.codingwolves.uniquora.models.Course;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

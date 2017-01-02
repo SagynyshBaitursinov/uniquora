@@ -1,8 +1,8 @@
-package kz.codingwolves.configurations;
+package kz.codingwolves.uniquora.configurations;
 
-import kz.codingwolves.enums.Messages;
-import kz.codingwolves.models.User;
-import kz.codingwolves.repositories.UserRepository;
+import kz.codingwolves.uniquora.enums.Messages;
+import kz.codingwolves.uniquora.models.User;
+import kz.codingwolves.uniquora.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

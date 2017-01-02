@@ -1,18 +1,24 @@
-package kz.codingwolves.controllers;
+package kz.codingwolves.uniquora.controllers;
 
-import kz.codingwolves.dto.LoginDto;
-import kz.codingwolves.enums.Messages;
-import kz.codingwolves.models.Confirmation;
-import kz.codingwolves.models.User;
-import kz.codingwolves.repositories.ConfirmationRepository;
-import kz.codingwolves.repositories.UserRepository;
+import kz.codingwolves.identicons.IdenticonGenerator;
+import kz.codingwolves.uniquora.SpringRunner;
+import kz.codingwolves.uniquora.dto.LoginDto;
+import kz.codingwolves.uniquora.enums.Messages;
+import kz.codingwolves.uniquora.models.Confirmation;
+import kz.codingwolves.uniquora.models.User;
+import kz.codingwolves.uniquora.repositories.ConfirmationRepository;
+import kz.codingwolves.uniquora.repositories.UserRepository;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -27,6 +33,9 @@ import java.util.concurrent.TimeUnit;
 public class MainController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private IdenticonGenerator identiconGenerator;
 
     @Autowired
     private UserRepository userRepository;
@@ -95,6 +104,12 @@ public class MainController {
                 return e.getMessage();
             }
         }
+        File outputfile = new File(SpringRunner.getFilesPath() + "avatars/" + user.getId() + ".png");
+        try {
+            ImageIO.write(identiconGenerator.generate(user.getEmail()), "png", outputfile);
+        } catch (IOException e) {
+            Messages.internalerror.toString();
+        }
         userRepository.merge(user);
         List<Confirmation> confirmationList = confirmationRepository.getByUser(user);
         for (Confirmation eachConfirmation: confirmationList) {
@@ -102,5 +117,22 @@ public class MainController {
             confirmationRepository.merge(eachConfirmation);
         }
         return Messages.success.toString();
+    }
+
+    @RequestMapping(value = "/avatar/{id}", method = RequestMethod.GET)
+    public void getAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        File outputfile = new File(SpringRunner.getFilesPath() + "avatars/" + id + ".png");
+        if (outputfile.exists()) {
+            response.setContentType(MediaType.IMAGE_PNG_VALUE);
+            try {
+                response.getOutputStream().write(IOUtils.toByteArray(new FileInputStream(outputfile)));
+            } catch (Exception e) {
+                response.setContentType(MediaType.TEXT_PLAIN_VALUE);
+                response.getWriter().write(Messages.notfound.toString());
+            }
+        } else {
+            response.setContentType(MediaType.TEXT_PLAIN_VALUE);
+            response.getWriter().write(Messages.notfound.toString());
+        }
     }
 }

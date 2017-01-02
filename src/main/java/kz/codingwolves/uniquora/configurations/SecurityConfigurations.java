@@ -1,6 +1,6 @@
-package kz.codingwolves.configurations;
+package kz.codingwolves.uniquora.configurations;
 
-import kz.codingwolves.enums.Messages;
+import kz.codingwolves.uniquora.enums.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;

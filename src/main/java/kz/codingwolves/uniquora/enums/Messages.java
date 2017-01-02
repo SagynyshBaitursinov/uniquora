@@ -1,4 +1,4 @@
-package kz.codingwolves.enums;
+package kz.codingwolves.uniquora.enums;
 
 /**
  * Created by sagynysh on 12/20/16.

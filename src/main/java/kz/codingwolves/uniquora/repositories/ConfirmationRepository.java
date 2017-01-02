@@ -1,7 +1,7 @@
-package kz.codingwolves.repositories;
+package kz.codingwolves.uniquora.repositories;
 
-import kz.codingwolves.models.Confirmation;
-import kz.codingwolves.models.User;
+import kz.codingwolves.uniquora.models.Confirmation;
+import kz.codingwolves.uniquora.models.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

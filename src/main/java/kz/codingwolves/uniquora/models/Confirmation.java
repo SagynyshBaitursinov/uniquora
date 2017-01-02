@@ -1,6 +1,6 @@
-package kz.codingwolves.models;
+package kz.codingwolves.uniquora.models;
 
-import kz.codingwolves.enums.Messages;
+import kz.codingwolves.uniquora.enums.Messages;
 
 import javax.persistence.*;
 import java.util.Date;

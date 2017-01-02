@@ -1,4 +1,4 @@
-package kz.codingwolves.models;
+package kz.codingwolves.uniquora.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

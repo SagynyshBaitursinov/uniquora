@@ -1,7 +1,9 @@
-package kz.codingwolves;
+package kz.codingwolves.uniquora;
 
+import kz.codingwolves.identicons.IdenticonGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.List;
 public class SpringRunner {
 
     private static List<String> administration;
+    private static String filesPath = "/opt/uniquora/";
 
     public static void main(String[] args) throws Exception {
         fillAdministratorEmails();
@@ -30,5 +33,14 @@ public class SpringRunner {
 
     public static boolean isAdmin(String email) {
         return administration.contains(email);
+    }
+
+    public static String getFilesPath() {
+        return filesPath;
+    }
+
+    @Bean
+    public IdenticonGenerator identiconGenerator() {
+        return new IdenticonGenerator();
     }
 }

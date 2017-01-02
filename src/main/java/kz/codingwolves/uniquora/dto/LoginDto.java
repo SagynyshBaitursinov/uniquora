@@ -1,4 +1,4 @@
-package kz.codingwolves.dto;
+package kz.codingwolves.uniquora.dto;
 
 /**
  * Created by sagynysh on 12/22/16.

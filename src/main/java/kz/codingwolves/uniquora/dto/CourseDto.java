@@ -1,6 +1,6 @@
-package kz.codingwolves.dto;
+package kz.codingwolves.uniquora.dto;
 
-import kz.codingwolves.models.Course;
+import kz.codingwolves.uniquora.models.Course;
 
 import java.util.ArrayList;
 import java.util.List;

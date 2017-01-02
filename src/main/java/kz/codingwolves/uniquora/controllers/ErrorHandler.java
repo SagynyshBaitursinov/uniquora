@@ -1,6 +1,6 @@
-package kz.codingwolves.controllers;
+package kz.codingwolves.uniquora.controllers;
 
-import kz.codingwolves.enums.Messages;
+import kz.codingwolves.uniquora.enums.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.ErrorController;

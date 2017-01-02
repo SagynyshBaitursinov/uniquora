@@ -1,8 +1,8 @@
-package kz.codingwolves.configurations;
+package kz.codingwolves.uniquora.configurations;
 
 import com.google.gson.Gson;
-import kz.codingwolves.dto.LoginDto;
-import kz.codingwolves.enums.Messages;
+import kz.codingwolves.uniquora.dto.LoginDto;
+import kz.codingwolves.uniquora.enums.Messages;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,10 +1,10 @@
-package kz.codingwolves.controllers;
+package kz.codingwolves.uniquora.controllers;
 
-import kz.codingwolves.SpringRunner;
-import kz.codingwolves.dto.CourseDto;
-import kz.codingwolves.enums.Messages;
-import kz.codingwolves.models.Course;
-import kz.codingwolves.repositories.CourseRepository;
+import kz.codingwolves.uniquora.SpringRunner;
+import kz.codingwolves.uniquora.dto.CourseDto;
+import kz.codingwolves.uniquora.enums.Messages;
+import kz.codingwolves.uniquora.models.Course;
+import kz.codingwolves.uniquora.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
