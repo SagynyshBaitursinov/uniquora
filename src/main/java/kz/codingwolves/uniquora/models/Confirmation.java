@@ -62,7 +62,7 @@ public class Confirmation {
     }
 
     public void setPasswordCandidate(String passwordCandidate) throws Exception {
-        if (passwordCandidate == null || passwordCandidate.length() < 9) {
+        if (passwordCandidate == null || passwordCandidate.length() < 8) {
             throw new Exception(Messages.incorrectformat.toString());
         }
         this.passwordCandidate = passwordCandidate;

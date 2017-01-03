@@ -37,7 +37,7 @@ public class ConfirmationRepository {
 
     public Confirmation getLastByUser(User user) {
         try {
-            return entityManager.createQuery("Select c from Confirmation c where c.user = ?1 order by c.createdDate desc", Confirmation.class).setParameter(1, user).setMaxResults(1).getSingleResult();
+            return entityManager.createQuery("Select c from Confirmation c where c.user = ?1 and c.isActive = true order by c.createdDate desc", Confirmation.class).setParameter(1, user).setMaxResults(1).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }

@@ -1,6 +1,8 @@
 package kz.codingwolves.uniquora.controllers;
 
+import com.sun.mail.util.MailConnectException;
 import kz.codingwolves.identicons.IdenticonGenerator;
+import kz.codingwolves.mail.MailSenderService;
 import kz.codingwolves.uniquora.SpringRunner;
 import kz.codingwolves.uniquora.dto.LoginDto;
 import kz.codingwolves.uniquora.enums.Messages;
@@ -16,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,6 +45,9 @@ public class MainController {
 
     @Autowired
     private ConfirmationRepository confirmationRepository;
+
+    @Autowired
+    private MailSenderService mailSenderService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public byte[] index(HttpServletResponse response) throws IOException {
@@ -75,9 +81,17 @@ public class MainController {
             }
             confirmation.setUser(user);
             confirmation.setCreatedDate(new Date());
-            confirmationRepository.merge(confirmation);
+            confirmation = confirmationRepository.merge(confirmation);
             logger.info("User registration attempt " + user.getEmail());
-            //TODO: Send email with confirmation.id and confirmation.code showing a confirmation.passwordCandidate
+            //Send email with confirmation.id and confirmation.code showing a confirmation.passwordCandidate
+            try {
+                mailSenderService.send(user.getEmail(), confirmation.getPasswordCandidate(), false, "?code=" + confirmation.getCode() + "&id=" + confirmation.getId());
+            } catch (Exception e) {
+                logger.info("Mail sender " + mailSenderService.getCurrentSender() + " gave an error, " + e.getMessage());
+                confirmation.setActive(false);
+                confirmationRepository.merge(confirmation);
+                return Messages.internalerror.toString();
+            }
             return Messages.success.toString();
         }
     }

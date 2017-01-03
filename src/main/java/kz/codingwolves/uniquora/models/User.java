@@ -85,7 +85,7 @@ public class User extends PersistentUnit {
     }
 
     public void setPassword(String password) throws Exception {
-        if (password == null || password.length() < 9) {
+        if (password == null || password.length() < 8) {
             throw new Exception(Messages.incorrectformat.toString());
         }
         this.password = password;
