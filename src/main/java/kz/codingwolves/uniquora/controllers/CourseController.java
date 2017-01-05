@@ -16,6 +16,8 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
+import static kz.codingwolves.uniquora.configurations.SecurityConfigurations.CORS_HEADER;
+
 /**
  * Created by sagynysh on 12/27/16.
  */
@@ -34,6 +36,7 @@ public class CourseController {
     @RequestMapping(value = "/updateCourses", method = RequestMethod.POST)
     public String update(Principal principal, HttpServletResponse response, @RequestBody List<CourseDto> list) {
         if (!SpringRunner.isAdmin(principal.getName())) {
+            response.setHeader(CORS_HEADER, "*");
             response.setStatus(403);
             return Messages.forbidden.toString();
         }

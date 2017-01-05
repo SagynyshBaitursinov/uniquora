@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -51,6 +52,8 @@ public class SecurityBeansDefinitions {
     public AuthenticationSuccessHandler successHandler() {
         return (request, response, authentication) -> {
             response.setStatus(200);
+            response.setContentType(MediaType.TEXT_PLAIN_VALUE);
+            response.setHeader(SecurityConfigurations.CORS_HEADER, "*");
             response.getWriter().write(Messages.success.toString());
         };
     }
@@ -59,6 +62,8 @@ public class SecurityBeansDefinitions {
     public AuthenticationFailureHandler failureHandler() {
         return (request, response, exception) -> {
             response.setStatus(403);
+            response.setHeader(SecurityConfigurations.CORS_HEADER, "*");
+            response.setContentType(MediaType.TEXT_PLAIN_VALUE);
             response.getWriter().write(Messages.forbidden.toString());
         };
     }

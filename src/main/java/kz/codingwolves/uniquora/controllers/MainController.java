@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import static kz.codingwolves.uniquora.configurations.SecurityConfigurations.CORS_HEADER;
+
 /**
  * Created by sagynysh on 12/17/16.
  */
@@ -48,9 +50,11 @@ public class MainController {
     private MailSenderService mailSenderService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public byte[] index(HttpServletResponse response) throws IOException {
+    public void index(HttpServletResponse response) throws IOException {
         InputStream in = getClass().getClassLoader().getResourceAsStream("readme.txt");
-        return IOUtils.toByteArray(in);
+        response.setContentType(MediaType.TEXT_PLAIN_VALUE);
+        response.setStatus(200);
+        response.getOutputStream().write(IOUtils.toByteArray(in));
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -133,6 +137,7 @@ public class MainController {
 
     @RequestMapping(value = "/avatar/{id}", method = RequestMethod.GET)
     public void getAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        response.setHeader(CORS_HEADER, "*");
         File outputfile = new File(SpringRunner.getFilesPath() + "avatars/" + id + ".png");
         if (outputfile.exists()) {
             response.setContentType(MediaType.IMAGE_PNG_VALUE);

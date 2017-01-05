@@ -1,9 +1,11 @@
 package kz.codingwolves.uniquora.controllers;
 
+import kz.codingwolves.uniquora.configurations.SecurityConfigurations;
 import kz.codingwolves.uniquora.enums.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.http.MediaType;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +30,8 @@ public class ErrorHandler implements ErrorController {
     @ResponseBody
     public String methodNotSupported(HttpServletResponse response) {
         response.setStatus(404);
+        response.setHeader(SecurityConfigurations.CORS_HEADER, "*");
+        response.setContentType(MediaType.TEXT_PLAIN_VALUE);
         return Messages.notfound.toString();
     }
 
@@ -39,6 +43,8 @@ public class ErrorHandler implements ErrorController {
             e.printStackTrace();
         }
         response.setStatus(500);
+        response.setHeader(SecurityConfigurations.CORS_HEADER, "*");
+        response.setContentType(MediaType.TEXT_PLAIN_VALUE);
         return Messages.internalerror.toString();
     }
 
@@ -47,9 +53,13 @@ public class ErrorHandler implements ErrorController {
         Integer code = (java.lang.Integer) request.getAttribute("javax.servlet.error.status_code");
         if (code != null && code == 404) {
             response.setStatus(404);
+            response.setHeader(SecurityConfigurations.CORS_HEADER, "*");
+            response.setContentType(MediaType.TEXT_PLAIN_VALUE);
             return Messages.notfound.toString();
         }
         response.setStatus(500);
+        response.setHeader(SecurityConfigurations.CORS_HEADER, "*");
+        response.setContentType(MediaType.TEXT_PLAIN_VALUE);
         return Messages.internalerror.toString();
     }
 }
