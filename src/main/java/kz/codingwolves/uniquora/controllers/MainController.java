@@ -1,6 +1,5 @@
 package kz.codingwolves.uniquora.controllers;
 
-import com.sun.mail.util.MailConnectException;
 import kz.codingwolves.identicons.IdenticonGenerator;
 import kz.codingwolves.mail.MailSenderService;
 import kz.codingwolves.uniquora.SpringRunner;
@@ -18,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
