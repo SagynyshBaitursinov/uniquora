@@ -1,6 +1,8 @@
 package kz.codingwolves.uniquora.controllers;
 
+import com.google.gson.Gson;
 import kz.codingwolves.identicons.IdenticonGenerator;
+import kz.codingwolves.jwt.JwtTokenUtil;
 import kz.codingwolves.mail.MailSenderService;
 import kz.codingwolves.uniquora.SpringRunner;
 import kz.codingwolves.uniquora.dto.LoginDto;
@@ -14,14 +16,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -47,12 +50,46 @@ public class MainController {
     @Autowired
     private MailSenderService mailSenderService;
 
+    @Autowired
+    private AuthenticationManager customAuthenticationManager;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public void index(HttpServletResponse response) throws IOException {
         InputStream in = getClass().getClassLoader().getResourceAsStream("readme.txt");
         response.setContentType(MediaType.TEXT_PLAIN_VALUE);
         response.setStatus(200);
         response.getOutputStream().write(IOUtils.toByteArray(in));
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(HttpServletRequest request, HttpServletResponse response) {
+        //Extracting principal and Credentials from request
+        StringBuilder jb = new StringBuilder();
+        String line;
+        try {
+            BufferedReader reader = request.getReader();
+            while ((line = reader.readLine()) != null) {
+                jb.append(line);
+            }
+        } catch (Exception e) {
+            response.setStatus(403);
+            return Messages.forbidden.toString();
+        }
+        LoginDto loginDto = new Gson().fromJson(jb.toString(), LoginDto.class);
+        if (loginDto == null) {
+            response.setStatus(403);
+            return Messages.forbidden.toString();
+        }
+        try {
+            customAuthenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.email, loginDto.password));
+        } catch (AuthenticationException exception) {
+            response.setStatus(403);
+            return Messages.forbidden.toString();
+        }
+        return jwtTokenUtil.generateToken(loginDto.email);
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -122,7 +159,7 @@ public class MainController {
         try {
             ImageIO.write(identiconGenerator.generate(user.getEmail()), "png", outputfile);
         } catch (IOException e) {
-            Messages.internalerror.toString();
+            return Messages.internalerror.toString();
         }
         userRepository.merge(user);
         List<Confirmation> confirmationList = confirmationRepository.getByUser(user);

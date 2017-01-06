@@ -13,6 +13,7 @@ import java.io.IOException;
 /**
  * Created by sagynysh on 1/6/17.
  */
+@SuppressWarnings("ALL")
 public class CorsAllowingFilter extends OncePerRequestFilter {
 
     @Override

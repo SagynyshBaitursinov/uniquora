@@ -98,6 +98,11 @@
             <artifactId>javax.mail</artifactId>
             <version>1.5.5</version>
         </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.6.0</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

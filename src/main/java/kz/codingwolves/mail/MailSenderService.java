@@ -6,7 +6,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MailSenderService {
@@ -23,10 +23,7 @@ public class MailSenderService {
         if (javaMailSenders == null || javaMailSenders.length == 0) {
             throw new Exception("Put at least one mailSender instance");
         }
-        javaMailSenderList = new ArrayList<>();
-        for (JavaMailSenderImpl javaMailSender: javaMailSenders) {
-            javaMailSenderList.add(javaMailSender);
-        }
+        javaMailSenderList = Arrays.asList(javaMailSenders);
         currentSender = 0;
         mailSenderSize = javaMailSenderList.size();
     }

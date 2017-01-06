@@ -1,5 +1,6 @@
 package kz.codingwolves.uniquora.configurations;
 
+import kz.codingwolves.jwt.JwtAuthenticationTokenFilter;
 import kz.codingwolves.uniquora.enums.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -8,9 +9,10 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private JsonAuthenticationFilter jsonAuthenticationFilter;
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
     @Autowired
     private CorsAllowingFilter corsAllowingFilter;
@@ -33,8 +35,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers(HttpMethod.POST,"/register").anonymous()
-                .antMatchers(HttpMethod.GET,"/confirm").anonymous()
+                .antMatchers(HttpMethod.POST, "/login").anonymous()
+                .antMatchers(HttpMethod.POST, "/register").anonymous()
+                .antMatchers(HttpMethod.GET, "/confirm").anonymous()
                 .antMatchers(HttpMethod.GET, "/avatar/**").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint((HttpServletRequest request,
@@ -46,14 +49,10 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                     response.setStatus(403);
                     response.setContentType(MediaType.TEXT_PLAIN_VALUE);
                     response.getWriter().write(Messages.forbidden.toString());
-                })
-                .and()
-                .addFilterBefore(jsonAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(corsAllowingFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout().logoutUrl("/logout").logoutSuccessHandler((request, response, authentication) -> {
-                    response.setStatus(200);
-                    response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-                    response.getWriter().write(Messages.success.toString());
-                }).and().headers().cacheControl().disable();
+                }).and()
+                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsAllowingFilter, ChannelProcessingFilter.class)
+                .headers().cacheControl().disable()
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 }

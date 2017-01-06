@@ -1,6 +1,5 @@
 package kz.codingwolves.uniquora.controllers;
 
-import kz.codingwolves.uniquora.configurations.SecurityConfigurations;
 import kz.codingwolves.uniquora.enums.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
