@@ -54,6 +54,6 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                     response.setStatus(200);
                     response.setContentType(MediaType.TEXT_PLAIN_VALUE);
                     response.getWriter().write(Messages.success.toString());
-                });
+                }).and().headers().cacheControl().disable();
     }
 }
