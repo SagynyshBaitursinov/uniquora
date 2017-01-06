@@ -6,6 +6,7 @@ import kz.codingwolves.uniquora.enums.Messages;
 import kz.codingwolves.uniquora.models.Course;
 import kz.codingwolves.uniquora.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,8 +17,6 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
-import static kz.codingwolves.uniquora.configurations.SecurityConfigurations.CORS_HEADER;
-
 /**
  * Created by sagynysh on 12/27/16.
  */
@@ -27,7 +26,6 @@ public class CourseController {
     @Autowired
     CourseRepository courseRepository;
 
-
     @RequestMapping(value = "/courses", method = RequestMethod.GET)
     public List<CourseDto> getCourses() {
         return CourseDto.fromList(courseRepository.findAll());
@@ -36,8 +34,8 @@ public class CourseController {
     @RequestMapping(value = "/updateCourses", method = RequestMethod.POST)
     public String update(Principal principal, HttpServletResponse response, @RequestBody List<CourseDto> list) {
         if (!SpringRunner.isAdmin(principal.getName())) {
-            response.setHeader(CORS_HEADER, "*");
             response.setStatus(403);
+            response.setContentType(MediaType.TEXT_PLAIN_VALUE);
             return Messages.forbidden.toString();
         }
         for (CourseDto dto: list) {

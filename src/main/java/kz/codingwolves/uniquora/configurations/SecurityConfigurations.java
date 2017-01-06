@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,10 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
-    public final static String CORS_HEADER = "Access-Control-Allow-Origin";
-
     @Autowired
     private JsonAuthenticationFilter jsonAuthenticationFilter;
+
+    @Autowired
+    private CorsAllowingFilter corsAllowingFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -33,23 +35,24 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.POST,"/register").anonymous()
                 .antMatchers(HttpMethod.GET,"/confirm").anonymous()
+                .antMatchers(HttpMethod.GET, "/avatar/**").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint((HttpServletRequest request,
                                                                      HttpServletResponse response, AuthenticationException authException) -> {
                     response.setStatus(401);
                     response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-                    response.setHeader(CORS_HEADER, "*");
                     response.getWriter().write(Messages.login.toString());
                 }).accessDeniedHandler((HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) -> {
                     response.setStatus(403);
-                     response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-                    response.setHeader(CORS_HEADER, "*");
+                    response.setContentType(MediaType.TEXT_PLAIN_VALUE);
                     response.getWriter().write(Messages.forbidden.toString());
-                }).and().addFilterBefore(jsonAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                })
+                .and()
+                .addFilterBefore(jsonAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsAllowingFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout().logoutUrl("/logout").logoutSuccessHandler((request, response, authentication) -> {
                     response.setStatus(200);
                     response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-                    response.setHeader(CORS_HEADER, "*");
                     response.getWriter().write(Messages.success.toString());
                 });
     }

@@ -27,6 +27,10 @@ public class SecurityBeansDefinitions {
     @Autowired
     UserRepository userRepository;
 
+    @Bean CorsAllowingFilter corsAllowingFilter() {
+        return new CorsAllowingFilter();
+    }
+
     @Bean
     public AuthenticationManager customAuthenticationManager() {
         return (Authentication authentication) -> {
@@ -53,7 +57,6 @@ public class SecurityBeansDefinitions {
         return (request, response, authentication) -> {
             response.setStatus(200);
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-            response.setHeader(SecurityConfigurations.CORS_HEADER, "*");
             response.getWriter().write(Messages.success.toString());
         };
     }
@@ -62,7 +65,6 @@ public class SecurityBeansDefinitions {
     public AuthenticationFailureHandler failureHandler() {
         return (request, response, exception) -> {
             response.setStatus(403);
-            response.setHeader(SecurityConfigurations.CORS_HEADER, "*");
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
             response.getWriter().write(Messages.forbidden.toString());
         };
