@@ -1,7 +1,7 @@
 package kz.codingwolves.uniquora.configurations;
 
 import kz.codingwolves.jwt.JwtAuthenticationTokenFilter;
-import kz.codingwolves.uniquora.enums.Messages;
+import kz.codingwolves.uniquora.enums.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -38,17 +38,18 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/login").anonymous()
                 .antMatchers(HttpMethod.POST, "/register").anonymous()
                 .antMatchers(HttpMethod.GET, "/confirm").anonymous()
+                .antMatchers(HttpMethod.GET, "/isregistered").anonymous()
                 .antMatchers(HttpMethod.GET, "/avatar/**").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint((HttpServletRequest request,
                                                                      HttpServletResponse response, AuthenticationException authException) -> {
                     response.setStatus(401);
                     response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-                    response.getWriter().write(Messages.login.toString());
+                    response.getWriter().write(Message.login.toString());
                 }).accessDeniedHandler((HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) -> {
                     response.setStatus(403);
                     response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-                    response.getWriter().write(Messages.forbidden.toString());
+                    response.getWriter().write(Message.forbidden.toString());
                 }).and()
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(corsAllowingFilter, ChannelProcessingFilter.class)

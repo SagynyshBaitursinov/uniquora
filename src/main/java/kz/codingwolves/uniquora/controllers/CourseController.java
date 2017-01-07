@@ -2,7 +2,7 @@ package kz.codingwolves.uniquora.controllers;
 
 import kz.codingwolves.uniquora.SpringRunner;
 import kz.codingwolves.uniquora.dto.CourseDto;
-import kz.codingwolves.uniquora.enums.Messages;
+import kz.codingwolves.uniquora.enums.Message;
 import kz.codingwolves.uniquora.models.Course;
 import kz.codingwolves.uniquora.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class CourseController {
 
     @RequestMapping(value = "/courses", method = RequestMethod.GET)
     public List<CourseDto> getCourses() {
-        return CourseDto.fromList(courseRepository.findAll());
+        return CourseDto.fromList(courseRepository.findAll(), false);
     }
 
     @RequestMapping(value = "/updateCourses", method = RequestMethod.POST)
@@ -36,7 +36,7 @@ public class CourseController {
         if (!SpringRunner.isAdmin(principal.getName())) {
             response.setStatus(403);
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-            return Messages.forbidden.toString();
+            return Message.forbidden.toString();
         }
         for (CourseDto dto: list) {
             Course course = courseRepository.findByCode(dto.COURSECODE);
@@ -57,6 +57,6 @@ public class CourseController {
                 courseRepository.merge(course);
             }
         }
-        return Messages.success.toString();
+        return Message.success.toString();
     }
 }

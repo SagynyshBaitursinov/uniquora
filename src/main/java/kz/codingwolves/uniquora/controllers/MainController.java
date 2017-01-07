@@ -6,7 +6,7 @@ import kz.codingwolves.jwt.JwtTokenUtil;
 import kz.codingwolves.mail.MailSenderService;
 import kz.codingwolves.uniquora.SpringRunner;
 import kz.codingwolves.uniquora.dto.LoginDto;
-import kz.codingwolves.uniquora.enums.Messages;
+import kz.codingwolves.uniquora.enums.Message;
 import kz.codingwolves.uniquora.models.Confirmation;
 import kz.codingwolves.uniquora.models.User;
 import kz.codingwolves.uniquora.repositories.ConfirmationRepository;
@@ -76,37 +76,53 @@ public class MainController {
             }
         } catch (Exception e) {
             response.setStatus(403);
-            return Messages.forbidden.toString();
+            return Message.forbidden.toString();
         }
         LoginDto loginDto = new Gson().fromJson(jb.toString(), LoginDto.class);
         if (loginDto == null) {
             response.setStatus(403);
-            return Messages.forbidden.toString();
+            return Message.forbidden.toString();
         }
         try {
             customAuthenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.email, loginDto.password));
         } catch (AuthenticationException exception) {
             response.setStatus(403);
-            return Messages.forbidden.toString();
+            return Message.forbidden.toString();
         }
         return jwtTokenUtil.generateToken(loginDto.email);
+    }
+
+    @RequestMapping(value = "/isregistered", method = RequestMethod.GET)
+    public String isRegistered(@RequestParam(value = "email") String email) {
+        /*if (email == null || email.isEmpty()) {
+            return Message.notfound.toString();
+        }*/
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            return Message.notfound.toString();
+        }
+        if (user.isRegistered()) {
+            return "true";
+        } else {
+            return "false";
+        }
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(@RequestBody LoginDto registration) {
         if (registration.email == null) {
-            return Messages.fill.toString();
+            return Message.fill.toString();
         } else {
             User user = userRepository.findByEmail(registration.email);
             if (user == null) {
-                return Messages.notfound.toString();
+                return Message.notfound.toString();
             }
             if (user.isRegistered()) {
-                return Messages.forbidden.toString();
+                return Message.forbidden.toString();
             }
             Confirmation existingConfirmation = confirmationRepository.getLastByUser(user);
             if (existingConfirmation != null && TimeUnit.DAYS.convert(new Date().getTime() - existingConfirmation.getCreatedDate().getTime(), TimeUnit.MILLISECONDS) < 1) {
-                return Messages.frequencylimit.toString();
+                return Message.frequencylimit.toString();
             }
             Confirmation confirmation = new Confirmation();
             confirmation.setActive(true);
@@ -127,9 +143,9 @@ public class MainController {
                 logger.info("Mail sender " + mailSenderService.getCurrentSender() + " gave an error, " + e.getMessage());
                 confirmation.setActive(false);
                 confirmationRepository.merge(confirmation);
-                return Messages.internalerror.toString();
+                return Message.internalerror.toString();
             }
-            return Messages.success.toString();
+            return Message.success.toString();
         }
     }
 
@@ -137,10 +153,10 @@ public class MainController {
     public String confirm(@RequestParam("code") String code, @RequestParam("id") Long id, @RequestParam(value = "password", required = false) String password) {
         Confirmation confirmation = confirmationRepository.getById(id);
         if (confirmation == null || !confirmation.isActive()) {
-            return Messages.notfound.toString();
+            return Message.notfound.toString();
         }
         if (!confirmation.getCode().equals(code)) {
-            return Messages.forbidden.toString();
+            return Message.forbidden.toString();
         }
         User user = confirmation.getUser();
         try {
@@ -159,7 +175,7 @@ public class MainController {
         try {
             ImageIO.write(identiconGenerator.generate(user.getEmail()), "png", outputfile);
         } catch (IOException e) {
-            return Messages.internalerror.toString();
+            return Message.internalerror.toString();
         }
         userRepository.merge(user);
         List<Confirmation> confirmationList = confirmationRepository.getByUser(user);
@@ -167,7 +183,7 @@ public class MainController {
             eachConfirmation.setActive(false);
             confirmationRepository.merge(eachConfirmation);
         }
-        return Messages.success.toString();
+        return Message.success.toString();
     }
 
     @RequestMapping(value = "/avatar/{id}", method = RequestMethod.GET)
@@ -180,12 +196,12 @@ public class MainController {
             } catch (Exception e) {
                 response.setStatus(404);
                 response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-                response.getWriter().write(Messages.notfound.toString());
+                response.getWriter().write(Message.notfound.toString());
             }
         } else {
             response.setStatus(404);
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-            response.getWriter().write(Messages.notfound.toString());
+            response.getWriter().write(Message.notfound.toString());
         }
     }
 }

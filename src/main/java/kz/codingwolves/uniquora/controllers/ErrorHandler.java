@@ -1,11 +1,12 @@
 package kz.codingwolves.uniquora.controllers;
 
-import kz.codingwolves.uniquora.enums.Messages;
+import kz.codingwolves.uniquora.enums.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.MediaType;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,15 @@ public class ErrorHandler implements ErrorController {
     public String methodNotSupported(HttpServletResponse response) {
         response.setStatus(404);
         response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-        return Messages.notfound.toString();
+        return Message.notfound.toString();
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ResponseBody
+    public String missingParameter(HttpServletResponse response) {
+        response.setStatus(400);
+        response.setContentType(MediaType.TEXT_PLAIN_VALUE);
+        return Message.fill.toString();
     }
 
     @ExceptionHandler(Throwable.class)
@@ -42,7 +51,7 @@ public class ErrorHandler implements ErrorController {
         }
         response.setStatus(500);
         response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-        return Messages.internalerror.toString();
+        return Message.internalerror.toString();
     }
 
     @RequestMapping(value = "/error")
@@ -51,10 +60,10 @@ public class ErrorHandler implements ErrorController {
         if (code != null && code == 404) {
             response.setStatus(404);
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-            return Messages.notfound.toString();
+            return Message.notfound.toString();
         }
         response.setStatus(500);
         response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-        return Messages.internalerror.toString();
+        return Message.internalerror.toString();
     }
 }

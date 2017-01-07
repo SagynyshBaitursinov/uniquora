@@ -1,6 +1,6 @@
 package kz.codingwolves.uniquora.models;
 
-import kz.codingwolves.uniquora.enums.Messages;
+import kz.codingwolves.uniquora.enums.Message;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -63,7 +63,7 @@ public class Confirmation {
 
     public void setPasswordCandidate(String passwordCandidate) throws Exception {
         if (passwordCandidate == null || passwordCandidate.length() < 8) {
-            throw new Exception(Messages.incorrectformat.toString());
+            throw new Exception(Message.incorrectformat.toString());
         }
         this.passwordCandidate = passwordCandidate;
     }

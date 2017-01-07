@@ -2,7 +2,7 @@ package kz.codingwolves.uniquora.configurations;
 
 import com.google.gson.Gson;
 import kz.codingwolves.uniquora.dto.LoginDto;
-import kz.codingwolves.uniquora.enums.Messages;
+import kz.codingwolves.uniquora.enums.Message;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +22,7 @@ import java.io.IOException;
 /**
  * Created by sagynysh on 12/23/16.
  */
+//It is not used in the project after introducing JWT
 public class JsonAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     public JsonAuthenticationFilter(AuthenticationManager authenticationManager, AuthenticationSuccessHandler successHandler, AuthenticationFailureHandler failureHandler) {
@@ -42,11 +43,11 @@ public class JsonAuthenticationFilter extends AbstractAuthenticationProcessingFi
                 jb.append(line);
             }
         } catch (Exception e) {
-            throw new AuthenticationServiceException(Messages.forbidden.toString());
+            throw new AuthenticationServiceException(Message.forbidden.toString());
         }
         LoginDto loginDto = new Gson().fromJson(jb.toString(), LoginDto.class);
         if (loginDto == null) {
-            throw new AuthenticationServiceException(Messages.forbidden.toString());
+            throw new AuthenticationServiceException(Message.forbidden.toString());
         }
         return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(loginDto.email, loginDto.password));
     }

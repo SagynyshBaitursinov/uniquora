@@ -34,4 +34,12 @@ public class CourseRepository {
             return null;
         }
     }
+
+    public Course findById(Long id) {
+        try {
+            return entityManager.createQuery("Select c from Course c where c.id = ?1", Course.class).setParameter(1, id).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

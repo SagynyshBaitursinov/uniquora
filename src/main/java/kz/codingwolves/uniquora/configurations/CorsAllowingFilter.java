@@ -1,6 +1,6 @@
 package kz.codingwolves.uniquora.configurations;
 
-import kz.codingwolves.uniquora.enums.Messages;
+import kz.codingwolves.uniquora.enums.Message;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -24,7 +24,7 @@ public class CorsAllowingFilter extends OncePerRequestFilter {
             response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
             response.addHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
             response.addHeader("Access-Control-Max-Age", "3600");
-            response.getWriter().write(Messages.success.toString());
+            response.getWriter().write(Message.success.toString());
             response.setStatus(200);
             return;
         }

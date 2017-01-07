@@ -2,7 +2,7 @@ package kz.codingwolves.uniquora.configurations;
 
 import kz.codingwolves.jwt.JwtAuthenticationTokenFilter;
 import kz.codingwolves.jwt.JwtTokenUtil;
-import kz.codingwolves.uniquora.enums.Messages;
+import kz.codingwolves.uniquora.enums.Message;
 import kz.codingwolves.uniquora.models.User;
 import kz.codingwolves.uniquora.repositories.UserRepository;
 import org.slf4j.Logger;
@@ -31,15 +31,15 @@ public class SecurityBeansDefinitions {
         return (Authentication authentication) -> {
             //Checking if allright, otherwise throw exception
             if (authentication.getPrincipal() == null) {
-                throw new AuthenticationServiceException(Messages.forbidden.toString());
+                throw new AuthenticationServiceException(Message.forbidden.toString());
             }
             User user = userRepository.findByEmail(authentication.getPrincipal().toString());
-            if (user == null || !user.isRegistered()) {
-                throw new AuthenticationServiceException(Messages.forbidden.toString());
+            if (user == null || !user.isRegistered() || user.getRemoved()) {
+                throw new AuthenticationServiceException(Message.forbidden.toString());
             }
             if (!user.getPassword().equals(authentication.getCredentials())) {
                 logger.info("Bad credentials, email: " + user.getEmail());
-                throw new AuthenticationServiceException(Messages.forbidden.toString());
+                throw new AuthenticationServiceException(Message.forbidden.toString());
             }
             return new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), null);
         };
@@ -71,7 +71,7 @@ public class SecurityBeansDefinitions {
         return (request, response, authentication) -> {
             response.setStatus(200);
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-            response.getWriter().write(Messages.success.toString());
+            response.getWriter().write(Message.success.toString());
         };
     }
 
@@ -80,7 +80,7 @@ public class SecurityBeansDefinitions {
         return (request, response, exception) -> {
             response.setStatus(403);
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-            response.getWriter().write(Messages.forbidden.toString());
+            response.getWriter().write(Message.forbidden.toString());
         };
     }*/
 }

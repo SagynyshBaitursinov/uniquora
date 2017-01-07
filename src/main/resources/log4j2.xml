@@ -11,7 +11,7 @@
                 </pattern>>
             </PatternLayout>
         </Console>
-        <RollingFile name="App-Appender" fileName="/opt/uniquora/logs/stack.log"
+        <RollingFile name="App-Appender" fileName="/opt/uniquora/logs/file.log"
                      filePattern="/opt/uniquora/logs/file-%d{yyyy-MM-dd}-%i.log" >
             <PatternLayout>
                 <pattern>[%-5level] %d{dd/MMM/yyyy HH:mm:ss,SSS}- %c{1}: %msg%n</pattern>

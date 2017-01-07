@@ -1,6 +1,7 @@
 package kz.codingwolves.uniquora.models;
 
-import kz.codingwolves.uniquora.enums.Messages;
+import kz.codingwolves.uniquora.enums.Message;
+import kz.codingwolves.uniquora.enums.School;
 
 import javax.persistence.*;
 
@@ -10,13 +11,6 @@ import javax.persistence.*;
 @Entity
 @Table(name="users")
 public class User extends PersistentUnit {
-
-    public enum School {
-        FOUNDATION,
-        SST,
-        SENG,
-        SHSS
-    }
 
     @Column(name="fullname_")
     private String fullname;
@@ -86,7 +80,7 @@ public class User extends PersistentUnit {
 
     public void setPassword(String password) throws Exception {
         if (password == null || password.length() < 8) {
-            throw new Exception(Messages.incorrectformat.toString());
+            throw new Exception(Message.incorrectformat.toString());
         }
         this.password = password;
     }

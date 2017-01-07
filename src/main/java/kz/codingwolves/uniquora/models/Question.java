@@ -1,12 +1,13 @@
 package kz.codingwolves.uniquora.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by sagynysh on 12/30/16.
  */
 @Entity
-@Table(name="questions")
+@Table(name="questions", uniqueConstraints={@UniqueConstraint(columnNames = {"title_", "course_"})})
 public class Question extends PersistentUnit {
 
     @Column(name="title_")
@@ -14,6 +15,9 @@ public class Question extends PersistentUnit {
 
     @Column(name="text_", columnDefinition="TEXT")
     private String text;
+
+    @Column(name="rating_")
+    private Integer rating;
 
     @ManyToOne
     @JoinColumn(name="creator_")
@@ -25,6 +29,25 @@ public class Question extends PersistentUnit {
 
     @Column(name="is_anonymous_")
     private Boolean isAnonymous;
+
+    @Transient
+    private List<Answer> answers;
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
 
     public String getTitle() {
         return title;
