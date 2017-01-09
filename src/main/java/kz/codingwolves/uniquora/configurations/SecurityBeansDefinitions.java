@@ -59,8 +59,8 @@ public class SecurityBeansDefinitions {
     public CorsAllowingFilter corsAllowingFilter() {
         return new CorsAllowingFilter();
     }
-/*
-    It was desided to use Jwt instead of sessions, so these are not needed
+
+/*  It was desided to use Jwt instead of sessions, so these are not needed
     @Bean
     public JsonAuthenticationFilter jsonAuthenticationFilter() {
         return new JsonAuthenticationFilter(customAuthenticationManager(), successHandler(), failureHandler());

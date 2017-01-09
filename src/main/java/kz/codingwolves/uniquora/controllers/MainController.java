@@ -94,9 +94,6 @@ public class MainController {
 
     @RequestMapping(value = "/isregistered", method = RequestMethod.GET)
     public String isRegistered(@RequestParam(value = "email") String email) {
-        /*if (email == null || email.isEmpty()) {
-            return Message.notfound.toString();
-        }*/
         User user = userRepository.findByEmail(email);
         if (user == null) {
             return Message.notfound.toString();
@@ -166,6 +163,7 @@ public class MainController {
         user.setModifiedDate(new Date());
         if (password != null) {
             try {
+                //TODO: Password has to be hashed
                 user.setPassword(password);
             } catch (Exception e) {
                 return e.getMessage();

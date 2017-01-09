@@ -4,6 +4,7 @@ import kz.codingwolves.uniquora.dto.NewQuestionDto;
 import kz.codingwolves.uniquora.dto.QuestionDto;
 import kz.codingwolves.uniquora.dto.ResponseDto;
 import kz.codingwolves.uniquora.enums.Message;
+import kz.codingwolves.uniquora.models.Answer;
 import kz.codingwolves.uniquora.models.Course;
 import kz.codingwolves.uniquora.models.Question;
 import kz.codingwolves.uniquora.models.User;
@@ -79,10 +80,12 @@ public class QuestionsController {
             page = 1;
         }
         List<Question> questionList = questionRepository.list(page);
+        for (Question question: questionList) {
+            question.setAnswersNumber(answerRepository.getAnswersNumber(question).intValue());
+        }
         Integer totalCount = questionRepository.count().intValue();
         Integer totalPages = MathUtil.totalPages(totalCount, pageSize);
-        ResponseDto<QuestionDto> result = new ResponseDto(page, totalPages, QuestionDto.fromList(questionList, false));
-        return result;
+        return new ResponseDto(page, totalPages, QuestionDto.fromList(questionList, false));
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
@@ -92,7 +95,9 @@ public class QuestionsController {
             response.sendError(404, Message.notfound.toString());
             return null;
         }
-        question.setAnswers(answerRepository.getAnswersByQuestion(question));
+        List<Answer> answersList = answerRepository.getAnswersByQuestion(question);
+        question.setAnswers(answersList);
+        question.setAnswersNumber(answersList.size());
         return new QuestionDto(question, true);
     }
 }

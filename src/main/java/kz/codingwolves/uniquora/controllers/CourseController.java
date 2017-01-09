@@ -21,17 +21,18 @@ import java.util.List;
  * Created by sagynysh on 12/27/16.
  */
 @RestController
+@RequestMapping("/courses")
 public class CourseController {
 
     @Autowired
     CourseRepository courseRepository;
 
-    @RequestMapping(value = "/courses", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<CourseDto> getCourses() {
         return CourseDto.fromList(courseRepository.findAll(), false);
     }
 
-    @RequestMapping(value = "/updateCourses", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Principal principal, HttpServletResponse response, @RequestBody List<CourseDto> list) {
         if (!SpringRunner.isAdmin(principal.getName())) {
             response.setStatus(403);

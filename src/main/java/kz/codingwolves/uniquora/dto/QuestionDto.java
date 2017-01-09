@@ -28,6 +28,9 @@ public class QuestionDto {
     public Date createdDate;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    public Integer answersNumber;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public List<AnswerDto> answerList;
 
     public QuestionDto(Question question, boolean full) {
@@ -41,6 +44,7 @@ public class QuestionDto {
         this.createdDate = question.getCreatedDate();
         this.courseDto = new CourseDto(question.getCourse(), false);
         this.rating = question.getRating();
+        this.answersNumber = question.getAnswersNumber();
     }
 
     public static List<QuestionDto> fromList(List<Question> list, boolean full) {

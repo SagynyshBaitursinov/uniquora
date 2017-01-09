@@ -35,4 +35,8 @@ public class AnswerRepository {
     public Answer merge(Answer answer) {
         return entityManager.merge(answer);
     }
+
+    public Long getAnswersNumber(Question question) {
+        return entityManager.createQuery("Select count(a) from Answer a where a.removed = false and a.question = ?1", Long.class).setParameter(1, question).getSingleResult();
+    }
 }

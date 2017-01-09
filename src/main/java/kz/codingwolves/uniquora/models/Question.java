@@ -33,6 +33,17 @@ public class Question extends PersistentUnit {
     @Transient
     private List<Answer> answers;
 
+    @Transient
+    private Integer answersNumber;
+
+    public Integer getAnswersNumber() {
+        return answersNumber;
+    }
+
+    public void setAnswersNumber(Integer answersNumber) {
+        this.answersNumber = answersNumber;
+    }
+
     public List<Answer> getAnswers() {
         return answers;
     }
