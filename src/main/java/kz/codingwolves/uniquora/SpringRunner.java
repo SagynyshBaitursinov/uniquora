@@ -28,7 +28,6 @@ public class SpringRunner {
     }
 
     private static void fillAdministratorEmails() {
-        System.out.println("AAA");
         administration = new ArrayList<>();
         //Hardcoded, yes, but who cares? Yolo!
         //TODO: this part has to be done by spring security, or at least admins have to be retrieved from the database
