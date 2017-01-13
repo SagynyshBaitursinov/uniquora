@@ -40,7 +40,7 @@ public class QuestionDto {
             this.text = question.getText();
             this.answerList = AnswerDto.fromList(question.getAnswers());
         }
-        this.creator = new UserDto(question.getCreator(), full);
+        this.creator = question.isAnonymous() ? new UserDto() : new UserDto(question.getCreator(), full);
         this.createdDate = question.getCreatedDate();
         this.courseDto = new CourseDto(question.getCourse(), false);
         this.rating = question.getRating();

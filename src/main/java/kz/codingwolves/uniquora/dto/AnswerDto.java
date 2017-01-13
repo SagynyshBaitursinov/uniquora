@@ -30,7 +30,7 @@ public class AnswerDto {
     }
 
     public static List<AnswerDto> fromList(List<Answer> answerList) {
-        if (answerList == null || answerList.isEmpty()) {
+        if (answerList == null) {
             return null;
         }
         List<AnswerDto> result = new ArrayList<>();
