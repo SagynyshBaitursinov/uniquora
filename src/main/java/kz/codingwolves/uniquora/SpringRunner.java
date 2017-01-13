@@ -1,6 +1,7 @@
 package kz.codingwolves.uniquora;
 
 import kz.codingwolves.identicons.IdenticonGenerator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,8 +17,10 @@ import java.util.List;
 @Configuration
 public class SpringRunner {
 
-    private static List<String> administration;
+    @Value("${avatars.folder}")
     private static String filesPath = "/opt/uniquora/";
+
+    private static List<String> administration;
 
     public static void main(String[] args) throws Exception {
         fillAdministratorEmails();
@@ -25,6 +28,7 @@ public class SpringRunner {
     }
 
     private static void fillAdministratorEmails() {
+        System.out.println("AAA");
         administration = new ArrayList<>();
         //Hardcoded, yes, but who cares? Yolo!
         //TODO: this part has to be done by spring security, or at least admins have to be retrieved from the database
