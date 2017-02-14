@@ -25,6 +25,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -201,5 +202,10 @@ public class MainController {
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
             response.getWriter().write(Message.notfound.toString());
         }
+    }
+
+    @RequestMapping(value = "/getEmail", method = RequestMethod.GET)
+    public String getEmail(Principal principal) {
+        return principal.getName();
     }
 }

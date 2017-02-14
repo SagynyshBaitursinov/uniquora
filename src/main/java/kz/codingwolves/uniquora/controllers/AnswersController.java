@@ -1,5 +1,7 @@
 package kz.codingwolves.uniquora.controllers;
 
+import com.google.gson.Gson;
+import kz.codingwolves.uniquora.dto.AnswerDto;
 import kz.codingwolves.uniquora.dto.NewAnswerDto;
 import kz.codingwolves.uniquora.enums.Message;
 import kz.codingwolves.uniquora.models.Answer;
@@ -9,6 +11,7 @@ import kz.codingwolves.uniquora.repositories.AnswerRepository;
 import kz.codingwolves.uniquora.repositories.QuestionRepository;
 import kz.codingwolves.uniquora.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -55,6 +58,7 @@ public class AnswersController {
         answer.setQuestion(question);
         answer.setText(answerDto.text);
         answer = answerRepository.merge(answer);
-        return answer.getId().toString();
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        return new Gson().toJson(new AnswerDto(answer));
     }
 }

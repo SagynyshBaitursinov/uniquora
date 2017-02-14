@@ -34,8 +34,9 @@ Following queries have to be sent with http header called **JWT** with value got
 * *GET /api/courses/list* -> returns list of courses in database.
 * *GET /api/questions/list?page=...* -> returns list of questions in a page wrapped in page information object. Pages start from 1, PageSize is 20.
 * *GET /api/questions/get/{id}* -> returns detailed information about the question with the given **id** including answers
-* *POST /api/questions/save {"title":"...", "text":"...", "courseId":"...", "isAnonymous":"false/true"}* -> returns **id** of the created question
+* *POST /api/questions/save {"title":"...", "text":"...", "courseId":"...", "isAnonymous":"false/true"}* -> returns created answer in JSON
 * *POST /api/answers/save {"text":"...", "questionId":"..."}* -> returns **id** of the created answer
+* *GET /api/getEmail -> returns **email** of the user if jwt is valid
 
 #### ToDo
   - Add rating/personal cabinet

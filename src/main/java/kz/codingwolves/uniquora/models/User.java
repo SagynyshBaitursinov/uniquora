@@ -27,7 +27,7 @@ public class User extends PersistentUnit {
     @Column(name="rating_")
     private Integer rating;
 
-    @Column(name="school")
+    @Column(name="school_")
     @Enumerated(EnumType.STRING)
     private School school;
 
