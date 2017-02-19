@@ -1,5 +1,7 @@
 package kz.codingwolves.uniquora.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import kz.codingwolves.uniquora.dto.AnswerDto;
 import kz.codingwolves.uniquora.dto.NewAnswerDto;
@@ -59,6 +61,10 @@ public class AnswersController {
         answer.setText(answerDto.text);
         answer = answerRepository.merge(answer);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        return new Gson().toJson(new AnswerDto(answer));
+        try {
+            return new ObjectMapper().writeValueAsString(answer);
+        } catch (JsonProcessingException e) {
+            return new Gson().toJson(answer);
+        }
     }
 }
