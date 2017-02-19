@@ -1,27 +1,35 @@
 # Uniquora
 > This is the first open-source project in Nazarbayev University. Created on 12/17/16
-> Back-end of the system written in Spring Boot, Java.
+> The project, back-end of the Uniquora application, written in Spring Boot, Java.
 
-#### Why Java and Spring Boot
+## For NU students
+
+#### Why to start NU Open Source project?
+* We believe that the stack of technologies used here can help any contributor to the project to learn basic programming skills that are necessary/helpful to start a career in IT industry.
+* We are inspired by an Open Source Software class.
+
+#### Why Java and Spring Boot for the back-end?
 * Java is one of the first languages for every CS student in NU
 * Java is one of the most popular languages in the programming world
-* Java is configurable and fast
-* Java has the biggest active community ready to help
-* Spring is one of the most popular frameworks written for Java
+* Java is very configurable and fast
+* Java has the biggest active community of programmers ready to help
+* Spring is one of the most popular frameworks written in/for Java
 * Spring Boot makes it easy to build and deploy Spring applications
+
+## Technical part
 
 #### How to deploy
 Project is configured in such way that you have to create postgresql database "jdbc:postgresql://localhost:5432/uniquora" with username and password "postgres:postgres".
-You also have to create "/opt/uniquora/avatars" and "/opt/uniquora/logs" folder and give your user permissions to write in those folders. (You can change properties in application.properties and log4j2.xml, but don't push them here).
+You also have to create "/opt/uniquora/avatars" and "/opt/uniquora/logs" folder and give your unix user permissions to write in those folders. (You can change all those properties in application.properties and log4j2.xml files, but please don't push them here).
 
-Then you are ready to build the project and start it
+Then you are ready to build the project and run it
 ```sh
 $ mvn clean install
 $ java -jar target/uniquora-1.0.jar
 ```
-...obviously make sure that you have installed Maven and Java 1.8. Fill the created database tables with your data.
+...obviously, make sure that you have installed Maven and Java 1.8. Fill the created database tables with your own initial data.
 
-#### What we have now
+#### What we have now (for Front-end applications)
 Application supports CORS: you can send following queries from any domain:
 
 * *GET /api/isregistered?email=...* -> returns "true", "false" or "notfound" in case if student is not in database.
@@ -41,4 +49,6 @@ Following queries have to be sent with http header called **JWT** with value got
 #### ToDo
   - Add rating/personal cabinet
   - Make students to be able to choose courses and search questions only by their courses
-  - Add pagination for answers?
+  - Searching for questions
+  - New avatar type has to be chosen
+  - No tests were written. Because YOLO!
