@@ -6,6 +6,7 @@ import kz.codingwolves.jwt.JwtTokenUtil;
 import kz.codingwolves.mail.MailSenderService;
 import kz.codingwolves.uniquora.SpringRunner;
 import kz.codingwolves.uniquora.dto.LoginDto;
+import kz.codingwolves.uniquora.dto.ValidationDto;
 import kz.codingwolves.uniquora.enums.Message;
 import kz.codingwolves.uniquora.models.Confirmation;
 import kz.codingwolves.uniquora.models.User;
@@ -204,8 +205,9 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/getEmail", method = RequestMethod.GET)
-    public String getEmail(Principal principal) {
-        return principal.getName();
+    @RequestMapping(value = "/whoami", method = RequestMethod.GET)
+    public ValidationDto whoAmI(Principal principal) {
+        User user = userRepository.findByEmail(principal.getName());
+        return ValidationDto.fromUser(user);
     }
 }

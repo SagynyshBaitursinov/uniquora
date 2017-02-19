@@ -1,5 +1,6 @@
 package kz.codingwolves.uniquora.controllers;
 
+import com.google.gson.Gson;
 import kz.codingwolves.uniquora.dto.NewQuestionDto;
 import kz.codingwolves.uniquora.dto.QuestionDto;
 import kz.codingwolves.uniquora.dto.ResponseDto;
@@ -15,6 +16,7 @@ import kz.codingwolves.uniquora.repositories.UserRepository;
 import kz.codingwolves.uniquora.utils.MathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -71,7 +73,8 @@ public class QuestionsController {
         } catch (DataIntegrityViolationException exception) {
             return Message.notunique.toString();
         }
-        return question.getId().toString();
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        return new Gson().toJson(new QuestionDto(question, false));
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
