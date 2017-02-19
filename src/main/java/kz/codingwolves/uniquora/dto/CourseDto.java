@@ -26,8 +26,8 @@ public class CourseDto {
         this.id = course.getId();
         if (full) {
             this.INSTANCEID = course.getRegistrarId();
-            this.COURSECODE = course.getCode();
         }
+        this.COURSECODE = course.getCode();
         this.COURSETITLE = course.getTitle();
     }
 

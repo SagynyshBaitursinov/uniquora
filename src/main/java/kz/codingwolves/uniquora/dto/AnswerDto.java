@@ -19,14 +19,14 @@ public class AnswerDto {
 
     public UserDto creator;
 
-    public Date createDate;
+    public Date createdDate;
 
     public AnswerDto(Answer answer) {
         this.id = answer.getId();
         this.text = answer.getText();
         this.creator = new UserDto(answer.getCreator(), true);
         this.rating = answer.getRating();
-        this.createDate = new Date();
+        this.createdDate = new Date();
     }
 
     public static List<AnswerDto> fromList(List<Answer> answerList) {
