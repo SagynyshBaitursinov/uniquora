@@ -1,28 +1,28 @@
 # Uniquora
-> This is the first open-source project in Nazarbayev University. Created on 12/17/16
+> This is the first open-source project in Nazarbayev University. Created on 12/17/16.
 > The project, back-end of the Uniquora application, written in Spring Boot, Java.
 
 ## For NU students
 
 #### Why to start NU Open Source project?
-* We believe that the stack of technologies used here can help any contributor to the project to learn basic programming skills that are necessary/helpful to start a career in IT industry.
-* We are inspired by an Open Source Software class.
+* We believe that the stack of technologies that was used here can help any contributor to the project to learn programming skills that are necessary/helpful to start a career in IT industry.
+* We were inspired by an Open Source Software class.
 
 #### Why Java and Spring Boot for the back-end?
-* Java is one of the first languages for every CS student in NU
-* Java is one of the most popular languages in the programming world
-* Java is very configurable and fast
-* Java has the biggest active community of programmers ready to help
-* Spring is one of the most popular frameworks written in/for Java
-* Spring Boot makes it easy to build and deploy Spring applications
+* Java is one of the first languages for every CS student in NU.
+* Java is one of the most popular languages in the programming world.
+* Java is very configurable and fast.
+* Java has the biggest active community of programmers ready to help.
+* Spring is one of the most popular frameworks written in/for Java.
+* Spring Boot makes it easy to build and deploy Spring applications.
 
 ## Technical part
 
 #### How to deploy
-Project is configured in such way that you have to create postgresql database "jdbc:postgresql://localhost:5432/uniquora" with username and password "postgres:postgres".
+The project is configured in such a way that you have to create postgresql database "jdbc:postgresql://localhost:5432/uniquora" with username and password "postgres:postgres".
 You also have to create "/opt/uniquora/avatars" and "/opt/uniquora/logs" folder and give your unix user permissions to write in those folders. (You can change all those properties in application.properties and log4j2.xml files, but please don't push them here).
 
-Then you are ready to build the project and run it
+Now you are ready to build the project and run it
 ```sh
 $ mvn clean install
 $ java -jar target/uniquora-1.0.jar
