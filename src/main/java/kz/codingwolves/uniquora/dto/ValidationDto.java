@@ -11,13 +11,16 @@ public class ValidationDto {
     public String fullname;
     public String schoolInfo;
     public String id;
+    public String year;
     public String rating;
 
     public static ValidationDto fromUser(User user) {
         ValidationDto result = new ValidationDto();
+        result.id = user.getId().toString();
         result.email = user.getEmail();
         result.fullname = user.getFullname();
-        result.schoolInfo = user.getSchool().toString() + " " + user.getRegistrarId().substring(0, 3);
+        result.schoolInfo = user.getSchool().toString();
+        result.year = user.getRegistrarId().substring(0, 4);
         result.rating = user.getRating().toString();
         return result;
     }

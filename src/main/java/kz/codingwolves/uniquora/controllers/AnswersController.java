@@ -61,10 +61,11 @@ public class AnswersController {
         answer.setText(answerDto.text);
         answer = answerRepository.merge(answer);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        AnswerDto result = new AnswerDto(answer);
         try {
-            return new ObjectMapper().writeValueAsString(answer);
+            return new ObjectMapper().writeValueAsString(result);
         } catch (JsonProcessingException e) {
-            return new Gson().toJson(answer);
+            return new Gson().toJson(result);
         }
     }
 }
