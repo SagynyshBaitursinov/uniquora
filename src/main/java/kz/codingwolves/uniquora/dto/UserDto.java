@@ -30,9 +30,4 @@ public class UserDto {
             this.rating = user.getRating();
         }
     }
-
-    public UserDto() {
-        this.id = 0L;
-        this.name = "Anonymous";
-    }
 }

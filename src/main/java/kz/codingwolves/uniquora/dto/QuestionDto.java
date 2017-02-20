@@ -19,6 +19,7 @@ public class QuestionDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public String text;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public UserDto creator;
 
     public Integer rating;
@@ -43,7 +44,7 @@ public class QuestionDto {
             this.text = question.getText();
             this.answerList = AnswerDto.fromList(question.getAnswers());
         }
-        this.creator = question.isAnonymous() ? new UserDto() : new UserDto(question.getCreator(), full);
+        this.creator = question.isAnonymous() ? null : new UserDto(question.getCreator(), full);
         this.createdDate = question.getCreatedDate();
         this.courseDto = new CourseDto(question.getCourse(), false);
         this.rating = question.getRating();

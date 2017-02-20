@@ -19,11 +19,12 @@
 ## Technical part
 
 #### How to deploy
-The project is configured in such a way that you have to create postgresql database "jdbc:postgresql://localhost:5432/uniquora" with username and password "postgres:postgres".
+The project is configured in such a way that you have to create a postgresql database "jdbc:postgresql://localhost:5432/uniquora" with username and password "postgres:postgres".
 You also have to create "/opt/uniquora/avatars" and "/opt/uniquora/logs" folder and give your unix user permissions to write in those folders. (You can change all those properties in application.properties and log4j2.xml files, but please don't push them here).
 
 Now you are ready to build the project and run it
 ```sh
+$ cd project/directory
 $ mvn clean install
 $ java -jar target/uniquora-1.0.jar
 ```
@@ -51,5 +52,5 @@ Following queries have to be sent with http header called **JWT** with value got
 2) Make students to be able to choose courses and search questions only by their courses<br>
 3) Searching for questions<br>
 4) New avatar type has to be chosen<br>
-5) No tests were written. Because YOLO!
+5) No tests were written. Because YOLO!<br>
 ...
