@@ -26,7 +26,7 @@ public class AnswerDto {
         this.text = answer.getText();
         this.creator = new UserDto(answer.getCreator(), true);
         this.rating = answer.getRating();
-        this.createdDate = new Date();
+        this.createdDate = answer.getCreatedDate();
     }
 
     public static List<AnswerDto> fromList(List<Answer> answerList) {
