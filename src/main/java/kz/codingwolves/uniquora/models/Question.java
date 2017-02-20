@@ -36,6 +36,17 @@ public class Question extends PersistentUnit {
     @Transient
     private Integer answersNumber;
 
+    @Transient
+    private Answer latestAnswer;
+
+    public Answer getLatestAnswer() {
+        return latestAnswer;
+    }
+
+    public void setLatestAnswer(Answer latestAnswer) {
+        this.latestAnswer = latestAnswer;
+    }
+
     public Integer getAnswersNumber() {
         return answersNumber;
     }

@@ -28,6 +28,9 @@ public class QuestionDto {
     public Date createdDate;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    public AnswerDto latestAnswer;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public Integer answersNumber;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -45,6 +48,9 @@ public class QuestionDto {
         this.courseDto = new CourseDto(question.getCourse(), false);
         this.rating = question.getRating();
         this.answersNumber = question.getAnswersNumber();
+        if (question.getLatestAnswer() != null) {
+            this.latestAnswer = new AnswerDto(question.getLatestAnswer());
+        }
     }
 
     public static List<QuestionDto> fromList(List<Question> list, boolean full) {

@@ -92,6 +92,7 @@ public class QuestionsController {
         List<Question> questionList = questionRepository.list(page);
         for (Question question: questionList) {
             question.setAnswersNumber(answerRepository.getAnswersNumber(question).intValue());
+            question.setLatestAnswer(answerRepository.getLastAnswer(question));
         }
         Integer totalCount = questionRepository.count().intValue();
         Integer totalPages = MathUtil.totalPages(totalCount, pageSize);

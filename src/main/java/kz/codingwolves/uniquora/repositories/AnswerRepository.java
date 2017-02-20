@@ -39,4 +39,12 @@ public class AnswerRepository {
     public Long getAnswersNumber(Question question) {
         return entityManager.createQuery("Select count(a) from Answer a where a.removed = false and a.question = ?1", Long.class).setParameter(1, question).getSingleResult();
     }
+
+    public Answer getLastAnswer(Question question) {
+        try {
+            return entityManager.createQuery("Select a from Answer a where a.removed = false and a.question = ?1 order by a.createdDate desc", Answer.class).setParameter(1, question).setMaxResults(1).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }
