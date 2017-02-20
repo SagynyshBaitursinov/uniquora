@@ -17,9 +17,6 @@ import java.util.List;
 @Configuration
 public class SpringRunner {
 
-    @Value("${avatars.folder}")
-    private static String filesPath = "/opt/uniquora/";
-
     private static List<String> administration;
 
     public static void main(String[] args) throws Exception {
@@ -36,10 +33,6 @@ public class SpringRunner {
 
     public static boolean isAdmin(String email) {
         return administration.contains(email);
-    }
-
-    public static String getFilesPath() {
-        return filesPath;
     }
 
     @Bean

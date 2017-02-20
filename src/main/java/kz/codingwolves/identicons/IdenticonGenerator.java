@@ -6,14 +6,11 @@ import java.awt.image.WritableRaster;
 
 public class IdenticonGenerator {
 
-    private static int height = 5;
-    private static int width = 5;
-
     public BufferedImage generate(String word) {
         HashGenerator hashGenerator = new HashGenerator("MD5");
         byte[] hash = hashGenerator.generate(word);
 
-        BufferedImage identicon = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage identicon = new BufferedImage(5, 5, BufferedImage.TYPE_INT_ARGB);
         WritableRaster raster = identicon.getRaster();
 
         int r = hash[0] & 255;
@@ -21,9 +18,9 @@ public class IdenticonGenerator {
         int b = hash[2] & 255;
         int [] background = new int[] {255, 255, 255, 0};
         int [] foreground = new int[] {r, g, b, 255};
-        for(int x = 0; x < width; x++) {
+        for(int x = 0; x < 5; x++) {
             int i = x < 3 ? x : 4 - x;
-            for(int y = 0; y < height; y++) {
+            for(int y = 0; y < 5; y++) {
                 int [] pixelColor;
                 if((hash[i] >> y & 1) == 1) {
                     pixelColor = foreground;

@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import kz.codingwolves.identicons.IdenticonGenerator;
 import kz.codingwolves.jwt.JwtTokenUtil;
 import kz.codingwolves.mail.MailSenderService;
-import kz.codingwolves.uniquora.SpringRunner;
 import kz.codingwolves.uniquora.dto.LoginDto;
 import kz.codingwolves.uniquora.dto.ValidationDto;
 import kz.codingwolves.uniquora.enums.Message;
@@ -16,6 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,6 +39,9 @@ import java.util.concurrent.TimeUnit;
 public class MainController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Value("${avatars.folder}")
+    private String filesPath;
 
     @Autowired
     private IdenticonGenerator identiconGenerator;
@@ -171,7 +174,7 @@ public class MainController {
                 return e.getMessage();
             }
         }
-        File outputfile = new File(SpringRunner.getFilesPath() + "avatars/" + user.getId() + ".png");
+        File outputfile = new File(filesPath + "avatars/" + user.getId() + ".png");
         try {
             ImageIO.write(identiconGenerator.generate(user.getEmail()), "png", outputfile);
         } catch (IOException e) {
@@ -188,7 +191,7 @@ public class MainController {
 
     @RequestMapping(value = "/avatar/{id}", method = RequestMethod.GET)
     public void getAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
-        File outputfile = new File(SpringRunner.getFilesPath() + "avatars/" + id + ".png");
+        File outputfile = new File(filesPath + "avatars/" + id + ".png");
         if (outputfile.exists()) {
             response.setContentType(MediaType.IMAGE_PNG_VALUE);
             try {
@@ -201,7 +204,7 @@ public class MainController {
         } else {
             response.setStatus(404);
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-            response.getWriter().write(Message.notfound.toString());
+            response.getWriter().write(Message.notfound.toString() + filesPath);
         }
     }
 

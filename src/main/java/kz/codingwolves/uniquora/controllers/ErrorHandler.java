@@ -13,6 +13,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by sagynysh on 12/20/16.
@@ -30,42 +31,42 @@ public class ErrorHandler implements ErrorController {
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseBody
-    public String methodNotSupported(HttpServletResponse response) {
+    public void methodNotSupported(HttpServletResponse response) throws IOException {
         response.setStatus(404);
         response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-        return Message.notfound.toString();
+        response.getWriter().write(Message.notfound.toString());
     }
 
     @ExceptionHandler(value = {MissingServletRequestParameterException.class, HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class})
     @ResponseBody
-    public String missingParameter(HttpServletResponse response) {
+    public void missingParameter(HttpServletResponse response) throws IOException {
         response.setStatus(400);
         response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-        return Message.fill.toString();
+        response.getWriter().write(Message.fill.toString());
     }
 
     @ExceptionHandler(Throwable.class)
     @ResponseBody
-    public String conflict(Throwable e, HttpServletResponse response) {
+    public void conflict(Throwable e, HttpServletResponse response) throws IOException {
         logger.info("An error occured with message {" + e.getMessage() + ", " + e.getStackTrace()[0].toString() + "}");
         if (logger.isDebugEnabled()) {
             e.printStackTrace();
         }
         response.setStatus(500);
         response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-        return Message.internalerror.toString();
+        response.getWriter().write(Message.internalerror.toString());
     }
 
     @RequestMapping(value = "/error")
-    public String error(HttpServletRequest request, HttpServletResponse response) {
+    public void error(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer code = (java.lang.Integer) request.getAttribute("javax.servlet.error.status_code");
+        response.setContentType(MediaType.TEXT_PLAIN_VALUE);
         if (code != null && code == 404) {
             response.setStatus(404);
-            response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-            return Message.notfound.toString();
+            response.getWriter().write(Message.notfound.toString());
+        } else {
+            response.setStatus(500);
+            response.getWriter().write(Message.internalerror.toString());
         }
-        response.setStatus(500);
-        response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-        return Message.internalerror.toString();
     }
 }
