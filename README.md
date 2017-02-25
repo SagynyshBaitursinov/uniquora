@@ -46,6 +46,7 @@ Following queries have to be sent with http header called **JWT** with value got
 * ``POST /api/questions/save {"title":"...", "text":"...", "courseId":"...", "isAnonymous":"false/true"}`` -> returns created question in JSON
 * ``POST /api/answers/save {"text":"...", "questionId":"..."}`` -> returns created answer in JSON
 * ``GET /api/whoami`` -> returns information about the user if jwt is valid
+* ``GET /api/search?query=...`` -> returns list of titles and ids of found questions. Query has to be more than one character.
 
 #### ToDo:
 1) Add rating/personal cabinet<br>
