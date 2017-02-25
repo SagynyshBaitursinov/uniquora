@@ -110,4 +110,13 @@ public class Question extends PersistentUnit {
     public void setAnonymous(Boolean anonymous) {
         isAnonymous = anonymous;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Question) {
+            Question question = (Question) object;
+            return this.getId().equals(question.getId());
+        }
+        return false;
+    }
 }

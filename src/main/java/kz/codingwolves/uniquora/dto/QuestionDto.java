@@ -22,10 +22,13 @@ public class QuestionDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public UserDto creator;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public Integer rating;
 
-    public CourseDto courseDto;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public CourseDto course;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public Date createdDate;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -37,6 +40,10 @@ public class QuestionDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public List<AnswerDto> answerList;
 
+    public QuestionDto() {
+
+    }
+
     public QuestionDto(Question question, boolean full) {
         this.id = question.getId();
         this.title = question.getTitle();
@@ -44,9 +51,9 @@ public class QuestionDto {
             this.text = question.getText();
             this.answerList = AnswerDto.fromList(question.getAnswers());
         }
-        this.creator = question.isAnonymous() ? null : new UserDto(question.getCreator(), full);
+        this.creator = question.isAnonymous() ? null : new UserDto(question.getCreator(), true);
         this.createdDate = question.getCreatedDate();
-        this.courseDto = new CourseDto(question.getCourse(), false);
+        this.course = new CourseDto(question.getCourse(), false);
         this.rating = question.getRating();
         this.answersNumber = question.getAnswersNumber();
         if (question.getLatestAnswer() != null) {
@@ -59,6 +66,19 @@ public class QuestionDto {
         for (Question question: list) {
             if (!question.getRemoved()) {
                 result.add(new QuestionDto(question, full));
+            }
+        }
+        return result;
+    }
+
+    public static List<QuestionDto> shortFromList(List<Question> list) {
+        List<QuestionDto> result = new ArrayList<>();
+        for (Question question: list) {
+            QuestionDto questionDto = new QuestionDto();
+            questionDto.id = question.getId();
+            questionDto.title = question.getTitle();
+            if (!question.getRemoved()) {
+                result.add(questionDto);
             }
         }
         return result;

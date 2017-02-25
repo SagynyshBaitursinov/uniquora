@@ -72,6 +72,7 @@ public class QuestionsController {
         question.setModifiedDate(new Date());
         try {
             question = questionRepository.merge(question);
+            SearchController.addQuestion(question);
         } catch (DataIntegrityViolationException exception) {
             return Message.notunique.toString();
         }

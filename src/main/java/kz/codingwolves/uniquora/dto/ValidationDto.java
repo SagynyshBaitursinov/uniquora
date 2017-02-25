@@ -8,8 +8,8 @@ import kz.codingwolves.uniquora.models.User;
 public class ValidationDto {
 
     public String email;
-    public String fullname;
-    public String schoolInfo;
+    public String name;
+    public String school;
     public String id;
     public String year;
     public String rating;
@@ -18,8 +18,8 @@ public class ValidationDto {
         ValidationDto result = new ValidationDto();
         result.id = user.getId().toString();
         result.email = user.getEmail();
-        result.fullname = user.getFullname();
-        result.schoolInfo = user.getSchool().toString();
+        result.name = user.getFullname();
+        result.school = user.getSchool().toString();
         result.year = user.getRegistrarId().substring(0, 4);
         result.rating = user.getRating().toString();
         return result;
