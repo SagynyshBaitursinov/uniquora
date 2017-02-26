@@ -36,9 +36,6 @@ public class SearchController {
     @PostConstruct
     private void init() {
         questionList = questionRepository.getAllQuestions();
-        for (Question question: questionList) {
-            question.setTitle(question.getTitle().toLowerCase());
-        }
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -47,7 +44,7 @@ public class SearchController {
         if (query != null && query.length() > 1) {
             query = query.toLowerCase();
             for (Question question : questionList) {
-                if (question.getTitle().contains(query) && !result.contains(question)) {
+                if (question.getTitle().toLowerCase().contains(query.toLowerCase()) && !result.contains(question)) {
                     result.add(question);
                 }
             }
