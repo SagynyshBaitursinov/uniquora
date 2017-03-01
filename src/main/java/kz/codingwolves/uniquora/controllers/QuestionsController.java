@@ -61,7 +61,9 @@ public class QuestionsController {
             return Message.fill.toString();
         }
         Question question = new Question();
-        question.setAnonymous(questionDto.isAnonymous == null ? false : questionDto.isAnonymous);
+        //for now it was decided to make all questions anonymous
+        //question.setAnonymous(questionDto.isAnonymous == null ? false : questionDto.isAnonymous);
+        question.setAnonymous(true);
         question.setCourse(course);
         question.setRating(0);
         question.setCreator(user);
