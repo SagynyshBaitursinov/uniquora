@@ -40,9 +40,9 @@ public class MailSenderService {
         MimeMessage message = senderInstance.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, false, "utf-8");
         if (forgot) {
-            message.setContent("<center><h3 style=\"color:#00897b\">Hello!</h3><p style=\"color: #000000\">Here is your password: </p><p style=\"color: #000000\"><b>" + password + "</b></p><p><span style=\"color: #000000\">Sincerly, </span><a href=\"http://uniquora.kz\">Uniquora administration</a></p></center>", "text/html");
+            message.setContent("<center><h3 style=\"color:#00897b\">Hello!</h3><p style=\"color: #000000\">Here is your password: </p><p style=\"color: #000000\"><b>" + password + "</b></p><p style=\"color: #000000\"><span style=\"color: #000000\">Sincerly, </span><a href=\"http://uniquora.kz\">Uniquora administration</a></p></center>", "text/html");
         } else {
-            message.setContent("<center><h3 style=\"color:#00897b\">Thank you for registering!</h3><p style=\"color: #000000\">You have registered with password </p><p style=\"color: #000000\"><b>" + password + "</b></p><p>In order to confirm the registration follow the <a href=\"http://uniquora.kz/#emailconfirm" + queryParams + "\">link</a>.</p><p><span style=\"color: #000000\">Sincerly, </span><a href=\"http://uniquora.kz\">uniquora</a> administration</p></center>", "text/html");
+            message.setContent("<center><h3 style=\"color:#00897b\">Thank you for registering!</h3><p style=\"color: #000000\">You have registered with password </p><p style=\"color: #000000\"><b>" + password + "</b></p><p style=\"color: #000000\">In order to confirm the registration follow the <a href=\"http://uniquora.kz/#emailconfirm" + queryParams + "\">link</a>.</p><p style=\"color: #000000\"><span style=\"color: #000000\">Sincerly, </span><a href=\"http://uniquora.kz\">Uniquora</a> administration</p></center>", "text/html");
         }
         helper.setTo(email);
         if (forgot) {
