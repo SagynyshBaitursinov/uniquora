@@ -20,7 +20,7 @@ import java.io.IOException;
  */
 @ControllerAdvice
 @RestController
-public class ErrorHandler implements ErrorController {
+public class    ErrorHandler implements ErrorController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

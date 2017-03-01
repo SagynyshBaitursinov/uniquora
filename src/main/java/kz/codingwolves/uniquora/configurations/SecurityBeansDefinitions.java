@@ -38,7 +38,6 @@ public class SecurityBeansDefinitions {
                 throw new AuthenticationServiceException(Message.forbidden.toString());
             }
             if (!user.getPassword().equals(authentication.getCredentials())) {
-                logger.info("Bad credentials, email: " + user.getEmail());
                 throw new AuthenticationServiceException(Message.forbidden.toString());
             }
             return new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), null);

@@ -152,12 +152,14 @@ public class MainController {
     }
 
     @RequestMapping(value = "/confirm", method = RequestMethod.GET)
-    public String confirm(@RequestParam("code") String code, @RequestParam("id") Long id, @RequestParam(value = "password", required = false) String password) {
+    public String confirm(@RequestParam("code") String code, @RequestParam("id") Long id, @RequestParam(value = "password", required = false) String password, HttpServletResponse response) {
         Confirmation confirmation = confirmationRepository.getById(id);
         if (confirmation == null || !confirmation.isActive()) {
+            response.setStatus(404);
             return Message.notfound.toString();
         }
         if (!confirmation.getCode().equals(code)) {
+            response.setStatus(403);
             return Message.forbidden.toString();
         }
         User user = confirmation.getUser();
@@ -178,6 +180,7 @@ public class MainController {
         try {
             ImageIO.write(identiconGenerator.generate(user.getEmail()), "png", outputfile);
         } catch (IOException e) {
+            response.setStatus(500);
             return Message.internalerror.toString();
         }
         userRepository.merge(user);
@@ -186,6 +189,7 @@ public class MainController {
             eachConfirmation.setActive(false);
             confirmationRepository.merge(eachConfirmation);
         }
+        response.setStatus(200);
         return Message.success.toString();
     }
 
