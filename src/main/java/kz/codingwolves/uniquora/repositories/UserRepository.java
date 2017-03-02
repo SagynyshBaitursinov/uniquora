@@ -23,6 +23,11 @@ public class UserRepository {
     }
 
     public User findByEmail(String email) {
+        if (email == null) {
+            return null;
+        } else {
+            email = email.trim().toLowerCase();
+        }
         try {
             return entityManager.createQuery("Select u from User u where u.email = ?1", User.class).setParameter(1, email).getSingleResult();
         } catch (NoResultException e) {
