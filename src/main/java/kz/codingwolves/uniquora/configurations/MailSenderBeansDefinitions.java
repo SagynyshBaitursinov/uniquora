@@ -13,7 +13,7 @@ public class MailSenderBeansDefinitions {
 
     @Bean(initMethod = "init")
     public CustomGmailMailSender gmailMailSender1() {
-        return new CustomGmailMailSender("uniquora.nu@gmail.com");
+        return new CustomGmailMailSender();
     }
 
     @Bean
