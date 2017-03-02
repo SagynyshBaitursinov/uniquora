@@ -9,9 +9,8 @@ import java.util.Properties;
  */
 public class CustomGmailMailSender extends JavaMailSenderImpl {
 
-    public CustomGmailMailSender(String email, String password) {
+    public CustomGmailMailSender(String email) {
         setUsername(email);
-        setPassword(password);
         setHost("smtp.gmail.com");
         setPort(587);
         setProtocol("smtp");
@@ -20,5 +19,14 @@ public class CustomGmailMailSender extends JavaMailSenderImpl {
         properties.setProperty("mail.smtp.starttls.enable", "true");
         properties.setProperty("mail.smtp.auth", "true");
         setJavaMailProperties(properties);
+    }
+
+    public void init() {
+        String password = System.getProperty("password");
+        if (password == null) {
+            System.out.println("Gmail password is null. Shutting down the server");
+            System.exit(0);
+        }
+        setPassword(password);
     }
 }

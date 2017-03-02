@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MailSenderBeansDefinitions {
 
-    @Bean
+    @Bean(initMethod = "init")
     public CustomGmailMailSender gmailMailSender1() {
-        return new CustomGmailMailSender("uniquora.nu@gmail.com", "iammessi2016");
+        return new CustomGmailMailSender("uniquora.nu@gmail.com");
     }
 
     @Bean
