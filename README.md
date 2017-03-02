@@ -5,10 +5,10 @@
 ## For NU students
 
 #### Why to start NU Open Source project?
-* We believe that the stack of technologies that was used here can help any contributor to the project to learn programming skills that are necessary or helpful to start a career in IT industry.
-* We were inspired by an Open Source Software class.
+* We believe that the stack of technologies that was used here can help contributors to learn programming skills that will be necessary or helpful to start a career in IT industry.
+* Authors were inspired by Open Source Software class, SST.
 
-#### Why Java and Spring Boot for the back-end?
+#### Why Java and Spring Boot were chosen for this project?
 * Java is one of the first languages for every CS student in NU.
 * Java is one of the most popular languages in the programming world.
 * Java is very configurable and fast.
