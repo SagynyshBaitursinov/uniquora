@@ -1,10 +1,9 @@
 package kz.codingwolves.uniquora.utils;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 /**
- * Created by Yegor on 02/03/17
+ * Created by sagynysh on 1/7/17.
  */
 public class MathUtil {
 
@@ -12,17 +11,16 @@ public class MathUtil {
         return new Double(Math.ceil(totalCount.doubleValue() / pageSize)).intValue();
     }
 
-    public static String shaHash(String string) {
+    public static String md5(String string) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
             StringBuffer hexString = new StringBuffer();
-            byte[] hash = digest.digest(string.getBytes(StandardCharsets.UTF_8));
+            byte[] hash = MessageDigest.getInstance("MD5").digest(string.getBytes());
             for (int i = 0; i < hash.length; i++) {
-                String hex = Integer.toHexString(0xff & hash[i]);
-                if (hex.length() == 1) {
-                    hexString.append('0');
+                if ((0xff & hash[i]) < 0x10) {
+                    hexString.append("0" + Integer.toHexString((0xFF & hash[i])));
+                } else {
+                    hexString.append(Integer.toHexString(0xFF & hash[i]));
                 }
-                hexString.append(hex);
             }
             return hexString.toString();
         } catch (Exception e) {
