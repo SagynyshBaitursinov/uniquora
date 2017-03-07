@@ -138,11 +138,11 @@ public class MainController {
             confirmation.setCreatedDate(new Date());
             confirmation = confirmationRepository.merge(confirmation);
             logger.info("User registration attempt " + user.getEmail());
-            //Send email with confirmation.id and confirmation.code showing a confirmation.passwordCandidate
+            //Sending email with confirmation.id and confirmation.code showing a confirmation.passwordCandidate
             try {
                 mailSenderService.send(user.getEmail(), confirmation.getPasswordCandidate(), false, "?code=" + confirmation.getCode() + "&id=" + confirmation.getId());
             } catch (Exception e) {
-                logger.info("Mail sender " + mailSenderService.getCurrentSender() + " gave an error, " + e.getMessage());
+                logger.info("Mail sender " + mailSenderService.getCurrentSender() + " gave an error for " + user.getEmail() + ", " + e.getMessage());
                 confirmation.setActive(false);
                 confirmationRepository.merge(confirmation);
                 return Message.internalerror.toString();
@@ -189,6 +189,7 @@ public class MainController {
             eachConfirmation.setActive(false);
             confirmationRepository.merge(eachConfirmation);
         }
+        logger.info("User registration confirmation " + user.getEmail());
         response.setStatus(200);
         return Message.success.toString();
     }

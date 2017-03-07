@@ -26,7 +26,7 @@ Now you are ready to build the project and run it
 ```sh
 $ cd project/directory
 $ mvn clean install
-$ java -jar target/uniquora-1.0.jar
+$ java -Dpassword=X -Dgmail=Y -jar target/uniquora-1.0.jar (X and Y are gmail accounts from which you want to send confirmation mails)
 ```
 ...obviously, make sure that you have installed Maven and Java 1.8. Fill the created database tables with your own initial data.
 
@@ -37,7 +37,7 @@ Application supports CORS: you can send following queries from any domain:
 * ``POST /api/register {"email":"...", "password":"..."}`` -> returns "success" in case of registration and sends **code** and **id** to the **email** that has to be sent to confirm the registration. A mail to the same email address will be sent only once in 24 hours in order to prevent spaming via our service.
 * ``GET /api/confirm?code=...&id=...`` -> returns "success" in case of successful confirmation
 * ``GET /api/avatar/{id}`` -> returns avatar of registered user or "notfound" in case if avatar doesn't exist
-* ``POST /api/login {"email":"...", "password":"..."}`` -> returns **JWT** in case of successful login
+* ``POST /api/login {"email":"...", "password":"..."}`` -> returns **JWT** in case of successful login. Password has to be sent in md5
 
 Following queries have to be sent with http header called **JWT** with value got from login query.
 * ``GET /api/courses/list`` -> returns list of courses in database.
@@ -53,5 +53,5 @@ Following queries have to be sent with http header called **JWT** with value got
 2) Make students to be able to choose courses and search questions only by their courses<br>
 3) Searching for questions<br>
 4) New avatar type has to be chosen<br>
-5) No tests were written. Because YOLO!<br>
+5) No tests were written yet. Because YOLO!<br>
 ...
