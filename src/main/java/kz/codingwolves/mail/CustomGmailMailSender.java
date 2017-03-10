@@ -1,5 +1,6 @@
 package kz.codingwolves.mail;
 
+import kz.codingwolves.jwt.JwtTokenUtil;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
@@ -27,6 +28,7 @@ public class CustomGmailMailSender extends JavaMailSenderImpl {
             System.out.println("Email or password is null. Shutting down the server");
             System.exit(0);
         } else {
+            JwtTokenUtil.SECRET = password;
             setPassword(password);
             setUsername(email);
         }

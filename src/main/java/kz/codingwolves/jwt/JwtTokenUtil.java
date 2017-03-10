@@ -15,7 +15,7 @@ public class JwtTokenUtil implements Serializable {
 
     static final String CLAIM_KEY_USERNAME = "sub";
     static final String CLAIM_KEY_CREATED = "created";
-    private static final String SECRET = "YouWillNeverGuessIt";
+    public static String SECRET = "YouWillNeverGuessIt";
     private static final Long EXPIRATION = 604800L;
 
     public String getUsernameFromToken(String token) {

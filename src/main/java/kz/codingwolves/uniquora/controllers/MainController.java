@@ -209,7 +209,7 @@ public class MainController {
         } else {
             response.setStatus(404);
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-            response.getWriter().write(Message.notfound.toString() + filesPath);
+            response.getWriter().write(Message.notfound.toString());
         }
     }
 
